@@ -1,0 +1,94 @@
+experiment:
+  name: twobody_paper_final_4q
+  output_dir: results
+  train_seeds: [11, 17, 23, 29, 31]
+  test_seeds: [101, 103, 107, 109, 113, 127]
+  backend_types: ["shot"]
+  shot_list: [8192]
+  probe_state_family: bell
+  target_state_families: ["bell_i", "rotated_product"]
+  feature_names: ["z_mean", "parity", "coherence_proxy", "phase_cos_component", "phase_sin_component", "transverse_norm"]
+  threshold_feature: "phase_sin_component"
+  classifier: "logistic"
+  survival_feature: "phase_sin_component"
+
+system:
+  n_qubits: 4
+  hamiltonian_type: xx_zz
+  evolution_time: 0.4
+  trotter_steps: 1
+  evolution_method: exact
+  jx: 1.0
+  jy: 0.0
+  jz: 0.5
+  hx: 0.0
+  hz: 0.2
+
+probe_system:
+  n_qubits: 4
+  hamiltonian_type: xx_zz
+  evolution_time: 0.0
+  trotter_steps: 1
+  evolution_method: exact
+  jx: 1.0
+  jy: 0.0
+  jz: 0.5
+  hx: 0.0
+  hz: 0.2
+
+noise:
+  phi: 0.0
+  gamma_dephasing: 0.0
+  eta_amplitude: 0.0
+  p_depolarizing: 0.0
+  p_measurement: 0.0
+
+transition:
+  noise_axis: gamma_dephasing
+  noise_values: [0.0, 0.03, 0.05, 0.08, 0.10, 0.15, 0.20, 0.25, 0.30]
+  fixed_phi: 0.8
+  fixed_gamma: 0.0
+
+decomposition:
+  component_axes:
+    phi: [0.0, 0.2, 0.4, 0.6, 0.8, 1.0]
+    gamma_dephasing: [0.0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30]
+    eta_amplitude: [0.0, 0.03, 0.06, 0.08, 0.10, 0.12, 0.14, 0.16]
+    p_measurement: [0.0, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.08, 0.10]
+  composite_strength_values: [0.0, 0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5, 0.6, 0.8, 1.0]
+  composite_scales:
+    phi: 0.8
+    gamma_dephasing: 0.3
+    eta_amplitude: 0.15
+    p_measurement: 0.1
+
+nodes:
+  - node_id: node_baseline
+    noise:
+      phi: 0.2
+      gamma_dephasing: 0.05
+  - node_id: node_drift
+    noise:
+      phi: 0.9
+      gamma_dephasing: 0.05
+  - node_id: node_dephase
+    noise:
+      phi: 0.2
+      gamma_dephasing: 0.25
+  - node_id: node_mixed
+    noise:
+      phi: 0.6
+      gamma_dephasing: 0.15
+      eta_amplitude: 0.05
+
+fingerprint:
+  noise_strength_values: [0.0, 0.2, 0.4, 0.6, 0.8, 1.0]
+  common_disturbance:
+    phi: 0.5
+    gamma_dephasing: 0.2
+    eta_amplitude: 0.1
+    p_measurement: 0.05
+  tamper:
+    reference_node: node_baseline
+    perturbation_axis: phi
+    perturbation_values: [0.0025, 0.005, 0.01, 0.02, 0.04, 0.08]

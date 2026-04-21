@@ -1,0 +1,27 @@
+system:
+  n_qubits: 2
+  state_family: bell
+  hamiltonian_type: xx_zz
+  evolution_time: 0.7
+  trotter_steps: 1
+  evolution_method: exact
+  jx: 1.0
+  jy: 0.0
+  jz: 0.5
+  hx: 0.0
+  hz: 0.2
+
+backend:
+  density_enabled: true
+  shot_enabled: false
+  shots: 2048
+  seed: 11
+
+observables:
+  - Z1
+  - Z2
+  - X1
+  - X2
+  - Z1Z2
+  - X1X2
+  - Y1Y2

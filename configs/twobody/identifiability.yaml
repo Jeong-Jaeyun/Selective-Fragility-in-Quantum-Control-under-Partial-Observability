@@ -1,0 +1,28 @@
+experiment:
+  name: twobody_identifiability
+  output_dir: results
+  seeds: [11, 17, 23]
+  backend_types: ["density", "shot"]
+  shot_list: [2048, 8192]
+
+system:
+  n_qubits: 2
+  state_family: bell
+  hamiltonian_type: xx_zz
+  evolution_time: 0.0
+  trotter_steps: 1
+  evolution_method: exact
+  jx: 1.0
+  jy: 0.0
+  jz: 0.5
+  hx: 0.0
+  hz: 0.2
+
+noise:
+  eta_amplitude: 0.0
+  p_depolarizing: 0.0
+  p_measurement: 0.0
+
+sweep:
+  phi: [0.0, 0.4, 0.8, 1.2]
+  gamma_dephasing: [0.0, 0.1, 0.2, 0.3]

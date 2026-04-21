@@ -1,0 +1,55 @@
+experiment:
+  name: twobody_robustness
+  output_dir: results
+  train_seeds: [11, 17]
+  test_seeds: [101, 103]
+  backend_types: ["shot"]
+  shot_list: [2048]
+  probe_state_family: bell
+  target_state_families: ["bell", "bell_i"]
+  feature_names: ["phase_cos_component", "phase_sin_component"]
+  threshold_feature: "phase_sin_component"
+  classifiers: ["threshold", "linear", "logistic"]
+
+system:
+  n_qubits: 2
+  hamiltonian_type: xx_zz
+  evolution_time: 0.0
+  trotter_steps: 1
+  evolution_method: exact
+  jx: 1.0
+  jy: 0.0
+  jz: 0.5
+  hx: 0.0
+  hz: 0.2
+
+noise:
+  eta_amplitude: 0.0
+  p_depolarizing: 0.0
+  p_measurement: 0.0
+
+sweep:
+  phi: [0.0, 0.4, 0.8, 1.2]
+  gamma_dephasing: [0.0, 0.1, 0.2, 0.3]
+
+scenarios:
+  - name: measurement_noise
+    type: measurement_noise
+    parameter: p_measurement
+    apply_to: test_noise
+    values: [0.0, 0.05]
+  - name: amplitude_damping
+    type: amplitude_damping
+    parameter: eta_amplitude
+    apply_to: test_noise
+    values: [0.0, 0.1]
+  - name: depolarizing
+    type: depolarizing
+    parameter: p_depolarizing
+    apply_to: test_noise
+    values: [0.0, 0.05]
+  - name: coupling_mismatch_jz
+    type: coupling_mismatch
+    parameter: jz
+    apply_to: test_system
+    values: [0.5, 0.9]

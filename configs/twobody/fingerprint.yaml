@@ -1,0 +1,44 @@
+experiment:
+  name: twobody_fingerprint
+  output_dir: results
+  train_seeds: [11, 17, 23]
+  test_seeds: [101, 103, 107]
+  backend_types: ["shot"]
+  shot_list: [8192]
+  probe_state_family: bell
+
+system:
+  n_qubits: 2
+  hamiltonian_type: xx_zz
+  evolution_time: 0.0
+  trotter_steps: 1
+  evolution_method: exact
+  jx: 1.0
+  jy: 0.0
+  jz: 0.5
+  hx: 0.0
+  hz: 0.2
+
+nodes:
+  - node_id: node_baseline
+    noise:
+      phi: 0.2
+      gamma_dephasing: 0.05
+  - node_id: node_drift
+    noise:
+      phi: 0.9
+      gamma_dephasing: 0.05
+  - node_id: node_dephase
+    noise:
+      phi: 0.2
+      gamma_dephasing: 0.25
+  - node_id: node_mixed
+    noise:
+      phi: 0.6
+      gamma_dephasing: 0.15
+      eta_amplitude: 0.05
+
+tamper:
+  reference_node: node_baseline
+  perturbation:
+    phi: 0.24
